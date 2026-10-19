@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: env-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/LizaSaitov/GitOps-Project.git
+        revision: main
+        directories:
+          - path: helmchart/env/*
+  template:
+    metadata:
+      name: 'env-{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/LizaSaitov/GitOps-Project.git
+        targetRevision: main
+        path: helmchart
+        helm:
+          valueFiles:
+            - 'env/{{path.basename}}/values.yaml'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
