@@ -6,7 +6,7 @@ pods:
   tag: latest
   pullPolicy: Always
 
-replicas: 1
+replicas: 2
 
 service:
   type: ClusterIP
