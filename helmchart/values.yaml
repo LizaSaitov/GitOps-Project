@@ -3,7 +3,7 @@ database:
   dbtable: liza
 pods: 
   image: lizaaliza/docker-app-demo
-  tag: 19
+  tag: 26
   pullPolicy: Always
 
 replicas: 2
